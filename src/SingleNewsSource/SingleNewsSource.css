@@ -1,0 +1,8 @@
+.SingleNewsSource{
+    margin-top: 15px;
+    border: solid 2px rgba(66, 60, 65, 0.171);
+    width:33%;
+    height: 200px;
+    display: flex;
+    text-align: center;
+}
