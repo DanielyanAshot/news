@@ -8,7 +8,7 @@ import { getNewsInfo } from './Components/Redux/selectors';
 const Main = () => {
   const sources = useSelector(getNewsInfo);
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   if (sources?.length) {
     return (
