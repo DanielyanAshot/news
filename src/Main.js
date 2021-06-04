@@ -25,6 +25,6 @@ const Main = () => {
       <span className="loading">Loading ...</span>
     </div>
   );
-}
+};
 
 export default Main;
