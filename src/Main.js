@@ -1,24 +1,20 @@
 import { BrowserRouter } from 'react-router-dom';
 import Header from './Components/Header';
 import Navigation from './Navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { getNewsInfo } from './Components/Redux/selectors';
 
 const Main = () => {
-  const [sources, setSources] = useState();
+  const sources = useSelector(getNewsInfo);
 
-  useEffect(() => {
-    fetch("https://newsapi.org/v2/sources?apiKey=d2719bc29082418883ea1aa824d3d502")
-      .then(response => response.json())
-      .then((response) => {
-        setSources(response);
-      })
-  }, []);
+  useEffect(() => { }, []);
 
-  if (!!sources) {
+  if (sources?.length) {
     return (
       <BrowserRouter>
         <Header />
-        <Navigation sources={sources.sources} />
+        <Navigation sources={sources} />
       </BrowserRouter>
     );
   }
