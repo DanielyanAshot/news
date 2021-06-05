@@ -1,4 +1,4 @@
-import './index.scss';
+import './styles.scss';
 
 const SingleNewsSource = ({ source }) => (
   <div className="SingleNewsSource">

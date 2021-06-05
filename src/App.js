@@ -1,11 +1,5 @@
-import Main from './Main';
+import AppLayout from './Components/layout/AppLayout';
 
-function App() {
-  return (
-    <div>
-      <Main />
-    </div>
-  );
-}
+const App = () => <AppLayout />;
 
 export default App;
