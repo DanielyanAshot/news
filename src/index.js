@@ -5,6 +5,8 @@ import store from './store';
 import { Provider } from 'react-redux';
 import './index.scss';
 
+import './assets/styles/index.scss';
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

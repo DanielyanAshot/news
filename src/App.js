@@ -1,16 +1,5 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import Main from './Main';
-import { fetchSourcesThunk } from './store/slices/sources';
+import AppLayout from './components/layout/AppLayout';
 
-function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchSourcesThunk());
-  }, []);
-
-  return <Main />;
-}
+const App = () => <AppLayout />;
 
 export default App;
