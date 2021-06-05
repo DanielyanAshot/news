@@ -1,18 +1,14 @@
 import './styles.scss';
 import SingleNewsSource from '../../reusable/SingleNewsSource';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSourcesThunk, selectSources } from '../../../store/slices/sources';
 
 const SourcesPage = () => {
-  const [sources, setSources] = useState(null);
-
+  const dispatch = useDispatch();
+  const sources = useSelector(selectSources);
   useEffect(() => {
-    const fetchSources = async () => {
-      const response = await fetch('https://newsapi.org/v2/sources?apiKey=d2719bc29082418883ea1aa824d3d502');
-      const data = await response.json();
-      setSources(data.sources);
-    };
-
-    fetchSources();
+    dispatch(fetchSourcesThunk());
   }, []);
 
   return (

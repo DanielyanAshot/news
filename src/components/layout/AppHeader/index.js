@@ -1,4 +1,3 @@
-import './styles.scss';
 import { Menu, Layout } from 'antd';
 
 const { Header } = Layout;
