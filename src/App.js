@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Main from './Main';
-import { dataApi } from './store/slices';
+import { fetchSourcesThunk } from './store/slices/sources';
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(dataApi());
+    dispatch(fetchSourcesThunk());
   }, []);
 
   return <Main />;
