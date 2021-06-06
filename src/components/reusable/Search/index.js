@@ -1,11 +1,11 @@
 import './index.scss';
 import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
-import ArticlesList from '../../reusable/Articles/ArticlesList';
-import Sort from '../../reusable/Sort';
-import Filter from '../../reusable/Filter';
+import ArticlesList from '../Articles/ArticlesList/index';
+import Sort from '../Sort';
+import Filter from '../Filter';
 
-const SearchPage = () => {
+const Search = () => {
   const [articles, setArticles] = useState();
   const source = new URLSearchParams(useLocation().search).get('sources');
   const q = new URLSearchParams(useLocation().search).get('q');
@@ -28,7 +28,7 @@ const SearchPage = () => {
   if (!!articles) {
     return (
       <div className="searchPage">
-        <Filter />
+        <Filter articles={articles} />
         <div className="sort-articles">
           <Sort changeSort={changeSort} />
           <ArticlesList articles={articles} />
@@ -45,4 +45,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default Search;
