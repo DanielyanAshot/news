@@ -1,9 +1,6 @@
 import './styles.scss';
 import { Link } from 'react-router-dom';
-import { languagesAll, countries } from 'countries-list';
-
-languagesAll.ud = { name: 'Urdu' };
-countries.ZH = { name: 'China' };
+import { languagesAll, countries } from '../countriesAndLanguages';
 
 const SingleNewsSource = ({ source }) => (
   <Link to={`/search?sources=${source.id}`} className="SingleNewsSource">
