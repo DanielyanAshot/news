@@ -18,7 +18,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     fetch(
-      `https://newsapi.org/v2/top-headlines?apiKey=e5036322e3a24bee9b3f1211b96e3b62&pageSize=20&page=1${
+      `https://newsapi.org/v2/top-headlines?apiKey=d2719bc29082418883ea1aa824d3d502&pageSize=20&page=1${
         !!source ? `&sources=${source}` : ''
       }${!!q ? `&q=${q}` : ''}`,
     )
