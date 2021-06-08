@@ -16,7 +16,7 @@ const Filter = () => (
             <Checkbox value="entertainment">Entertainment</Checkbox>
           </Col>
           <Col span={8}>
-            <Checkbox value="general">Seneral</Checkbox>
+            <Checkbox value="general">General</Checkbox>
           </Col>
           <Col span={8}>
             <Checkbox value="health">Sealth</Checkbox>

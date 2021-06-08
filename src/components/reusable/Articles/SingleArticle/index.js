@@ -1,7 +1,6 @@
 const SingleArticle = ({ article }) => (
   <div>
-    <p>{article.description}</p>
-    <img src={article.urlToImage}></img>
+    <p>{article.publishedAt}</p>
   </div>
 );
 

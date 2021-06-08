@@ -1,4 +1,4 @@
-import { Menu, Layout } from 'antd';
+import { Layout } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
@@ -26,27 +26,22 @@ const AppHeader = () => {
     }
   };
   return (
-    <Header>
-      <Menu mode="horizontal" defaultSelectedKeys={['2']}>
-        <Row type="flex" justify="space-between" align="top">
+    <Header style={{ backgroundColor: 'black' }}>
+      <Row type="flex" justify="space-between" align="top">
+        <Link to="/sources">
           <Col>
-            {' '}
-            <Link to="/sources">
-              <Menu.Item key="1">News</Menu.Item>
-            </Link>
+            <p style={{ color: 'blue', border: 0, fontSize: 20, fontWeight: 'bold' }}>NEWS</p>
           </Col>
-          <Col>
-            <Menu.Item key="2">
-              <Button onClick={inputVisibility}>
-                <SearchOutlined />
-              </Button>
-              {input ? (
-                <Input type="search" onChange={(evt) => searchSubmit(evt)} onKeyUp={(evt) => onPressingEnter(evt)} />
-              ) : null}
-            </Menu.Item>
-          </Col>
-        </Row>
-      </Menu>
+        </Link>
+        <Col>
+          <Button onClick={inputVisibility}>
+            <SearchOutlined />
+          </Button>
+          {input && (
+            <Input onKeyUp={(evt) => onPressingEnter(evt)} onChange={(evt) => searchSubmit(evt)} type="search" />
+          )}
+        </Col>
+      </Row>
     </Header>
   );
 };
