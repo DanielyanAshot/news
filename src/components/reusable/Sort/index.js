@@ -1,22 +1,25 @@
 import './index.scss';
+import { Select } from 'antd';
+
+const { Option } = Select;
 
 const Sort = ({ changeSort }) => {
-  const onSortChange = (evt) => {
-    if (evt.target.value === 'Published Date') {
+  const onSortChange = (value) => {
+    if (value === 'Published Date') {
       changeSort('publishedAt');
     } else {
-      changeSort(evt.target.value.toLowerCase());
+      changeSort(value.toLowerCase());
     }
   };
 
   return (
     <div className="sort">
       <h4>SortBy:</h4>
-      <select onChange={(evt) => onSortChange(evt)}>
-        <option>Popularity</option>
-        <option>Relevance</option>
-        <option>Published Date</option>
-      </select>
+      <Select defaultValue="Popularity" onChange={(value) => onSortChange(value)}>
+        <Option value="Popularity">Popularity</Option>
+        <Option value="Relevance">Relevance</Option>
+        <Option value="Published Date">Published Date</Option>
+      </Select>
     </div>
   );
 };
