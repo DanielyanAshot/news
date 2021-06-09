@@ -1,6 +1,5 @@
 import { Layout } from 'antd';
 import Navigation from '../Navigation';
-import { BrowserRouter } from 'react-router-dom';
 
 const { Content } = Layout;
 
@@ -8,9 +7,7 @@ const { Content } = Layout;
 
 const AppContent = () => (
   <Content style={{ padding: '0 50px' }}>
-    <BrowserRouter>
-      <Navigation />
-    </BrowserRouter>
+    <Navigation />
   </Content>
 );
 
