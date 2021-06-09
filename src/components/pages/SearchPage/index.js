@@ -7,8 +7,22 @@ import GetQuery from '../../reusable/GetQuery';
 
 const SearchPage = () => {
   const [articles, setArticles] = useState();
-  const source = GetQuery('sources');
+  const [source, setSource] = useState(GetQuery('sources'));
   const q = GetQuery('q');
+  const [category, setCategory] = useState(false);
+  const [country, setCountry] = useState(false);
+
+  const categoryFilter = (newCategory) => {
+    setCategory(newCategory);
+  };
+
+  const countryFilter = (newCountry) => {
+    setCountry(newCountry);
+  };
+
+  const sourceFilter = (newSource) => {
+    setSource(newSource);
+  };
 
   const changeSort = (articles) => {
     let newArticles = { ...articles };
@@ -18,20 +32,27 @@ const SearchPage = () => {
 
   useEffect(() => {
     fetch(
-      `https://newsapi.org/v2/top-headlines?apiKey=d2719bc29082418883ea1aa824d3d502&pageSize=20&page=1${
+      `https://newsapi.org/v2/top-headlines?apiKey=f6412f4f7b2741c58e527e0b6c8738e4&pageSize=20&page=1${
         !!source ? `&sources=${source}` : ''
-      }${!!q ? `&q=${q}` : ''}`,
+      }${!!q ? `&q=${q}` : ''}${!!category ? `&category=${category}` : ''}${!!country ? `&country=${country}` : ''}`,
     )
       .then((response) => response.json())
       .then((response) => {
         setArticles(response);
       });
-  }, [setArticles, source, q]);
+  }, [setArticles, source, q, category, country]);
 
   if (!!articles) {
     return (
       <div className="searchPage">
-        <Filter />
+        <Filter
+          categoryFilter={categoryFilter}
+          countryFilter={countryFilter}
+          sourceFilter={sourceFilter}
+          category={category}
+          source={source}
+          country={country}
+        />
         <div className="sort-articles">
           <Sort articles={articles} changeSort={changeSort} />
           <ArticlesList articles={articles} />
