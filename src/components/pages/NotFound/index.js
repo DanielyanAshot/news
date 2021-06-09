@@ -1,6 +1,6 @@
 import { Result, Button } from 'antd';
 
-const Index = () => (
+const NotFound = () => (
   <section>
     <Result
       status="404"
@@ -11,4 +11,4 @@ const Index = () => (
   </section>
 );
 
-export default Index;
+export default NotFound;

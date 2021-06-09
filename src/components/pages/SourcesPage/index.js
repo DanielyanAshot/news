@@ -11,7 +11,7 @@ const SourcesPage = () => {
   const sources = useSelector(selectSources);
   useEffect(() => {
     dispatch(fetchSourcesThunk());
-  }, []);
+  }, [dispatch]);
 
   return (
     <section className="NewsSourcesList">
