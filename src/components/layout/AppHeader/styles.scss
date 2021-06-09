@@ -1,0 +1,45 @@
+// .header{
+//     background-color:#9cc3d5ff;
+//     padding: 0;
+// }
+
+.row{
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-text{
+    color: #FFC42C;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+// .search-icon{
+//     font-size: 30px;
+//     margin-left: 20px;
+// }
+
+.search-bar{
+    display: flex;
+    align-items: center;
+    label{
+        display: flex;
+        align-items: center;
+    }
+}
+
+.ant-layout-header{
+    background-Color: #002647 !important;
+}
+
+.ant-col .search-bar label {
+    span {
+        svg{
+            font-size: 30px;
+            color: #FFC42C;
+            margin-left: 8px;
+            
+        }
+    }
+}

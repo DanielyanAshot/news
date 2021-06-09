@@ -1,6 +1,7 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 import SourcesPage from '../../pages/SourcesPage';
 import SearchPage from '../../pages/SearchPage';
+import Index from '../../pages/NotFound';
 
 const Navigation = () => (
   <Switch>
@@ -17,7 +18,7 @@ const Navigation = () => (
     </Route>
 
     <Route path="*">
-      <div>Not Found</div>
+      <Index />
     </Route>
   </Switch>
 );
