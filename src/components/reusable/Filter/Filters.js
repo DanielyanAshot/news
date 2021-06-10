@@ -1,7 +1,3 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchSourcesThunk, selectSources } from '../../../store/slices/sources';
-
 let categoriesFilters = ['Business', 'Entertainment', 'General', 'Health', 'Science', 'Sports', 'Technology'];
 
 let countriesFilters = [
@@ -61,16 +57,7 @@ let countriesFilters = [
   'za',
 ];
 
-const Fetch = () => {
-  const dispatch = useDispatch();
-  const sources = useSelector(selectSources);
-  useEffect(() => {
-    dispatch(fetchSourcesThunk());
-  }, [dispatch]);
-  return sources;
-};
-
 countriesFilters = countriesFilters.map((val, index) => ({ id: index + 1, name: val }));
 categoriesFilters = categoriesFilters.map((val, index) => ({ id: index + 1, name: val }));
 
-export { categoriesFilters, countriesFilters, Fetch };
+export { categoriesFilters, countriesFilters };

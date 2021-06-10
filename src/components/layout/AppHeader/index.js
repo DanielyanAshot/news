@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import { useState } from 'react';
 import { Input, Row, Col } from 'antd';
 import './styles.scss';
+import { Link } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -17,12 +18,16 @@ const AppHeader = () => {
   };
   const inputVisibility = () => {
     setInput(!input);
+    setInputText();
     if (!!inputText) {
-      router.push(`/search?q=${inputText}`);
+      const newInput = inputText;
+      setInputText();
+      router.push(`/search?q=${newInput}`);
     }
   };
   const onPressingEnter = (evt) => {
     if ((evt.code === 'NumpadEnter' || evt.code === 'Enter') && !!evt.target.value) {
+      setInputText();
       setInput(!input);
       router.push(`/search?q=${evt.target.value}`);
     }
@@ -31,9 +36,11 @@ const AppHeader = () => {
   return (
     <Header>
       <Row className="row">
-        <Col>
-          <span className="header-text">NEWS</span>
-        </Col>
+        <Link to="/sources">
+          <Col>
+            <span className="header-text">News Sources</span>
+          </Col>
+        </Link>
         <Col>
           <div className="search-bar">
             {input && (
