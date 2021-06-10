@@ -81,9 +81,9 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                   trigger="hover"
                   autoAdjustOverflow={false}
                   content={
-                    <Row>
+                    <Row className="popoutWindow">
                       {countriesFilters.map((country) => (
-                        <Col span={4} key={country.id}>
+                        <Col span={8} key={country.id}>
                           <Checkbox
                             disabled={countriesChecked && countriesChecked !== country.name}
                             onChange={(e) => checkboxChanger(e, 'country')}
@@ -107,12 +107,10 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                   placement="rightTop"
                   title={'Sources'}
                   trigger="hover"
-                  color="#E6E6E6"
-                  autoAdjustOverflow={false}
                   content={
-                    <Row>
+                    <Row className="popoutWindow">
                       {sources.map((source) => (
-                        <Col span={4} key={source.id}>
+                        <Col span={8} key={source.id}>
                           <Checkbox
                             disabled={sourcesChecked && sourcesChecked !== source.id}
                             onChange={(e) => checkboxChanger(e, 'source')}
