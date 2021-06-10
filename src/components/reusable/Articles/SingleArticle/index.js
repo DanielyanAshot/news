@@ -1,8 +1,8 @@
 const SingleArticle = ({ article }) => (
-  <div>
+  <div style={{ width: '500px', height: '200px', border: '1px solid' }}>
     <p>{article.author}</p>
     <p>{article.publishedAt}</p>
-    <img src={article.urlToImage}></img>
+    <img width={100} src={article.urlToImage} />
   </div>
 );
 

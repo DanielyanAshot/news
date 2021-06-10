@@ -1,17 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import apiService from '../../services/apiService';
 
-export const fetchSourcesThunk = createAsyncThunk('news/getData', async () => {
-  const response = await apiService(`/sources`);
+export const fetchArticlesThunk = createAsyncThunk('articles/fetch', async (params) => {
+  const response = await apiService(`/top-headlines`, {
+    params: {
+      ...params,
+      page: 1,
+    },
+  });
+
   const {
-    data: { sources },
+    data: { articles },
   } = response;
 
-  return sources;
+  return articles;
 });
 
-export const sourcesSlice = createSlice({
-  name: 'sources',
+export const articlesSlice = createSlice({
+  name: 'articles',
   initialState: {
     data: [],
     pending: false,
@@ -19,19 +25,18 @@ export const sourcesSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    // Add reducers for additional action types here, and handle loading state as needed
-    [fetchSourcesThunk.pending]: (state) => {
+    [fetchArticlesThunk.pending]: (state) => {
       if (!state.pending) {
         state.pending = true;
       }
     },
-    [fetchSourcesThunk.fulfilled]: (state, action) => {
+    [fetchArticlesThunk.fulfilled]: (state, action) => {
       if (state.pending) {
         state.pending = false;
         state.data = action.payload;
       }
     },
-    [fetchSourcesThunk.rejected]: (state, action) => {
+    [fetchArticlesThunk.rejected]: (state, action) => {
       if (state.pending) {
         state.pending = false;
         state.error = action.error;
@@ -40,4 +45,4 @@ export const sourcesSlice = createSlice({
   },
 });
 
-export const selectSources = (state) => state.sources.data;
+export const selectArticles = (state) => state.articles.data;

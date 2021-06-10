@@ -1,43 +1,34 @@
 import './index.scss';
 import { Checkbox, Row, Col, Button, Popover } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { categoriesFilters, countriesFilters } from './Filters';
 import { countries } from '../countriesAndLanguages';
-import { selectSources } from '../../../store/slices/sources';
-import { useSelector } from 'react-redux';
+import useQuery from '../../../hooks';
 
-const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source, country }) => {
-  const sources = useSelector(selectSources);
-  const [sourcesChecked, setSourcesChecked] = useState(false);
-  const [categoriesChecked, setCategoriesChecked] = useState(false);
-  const [countriesChecked, setCountriesChecked] = useState(false);
+const Filter = ({ onChange, sources }) => {
+  const query = useQuery();
+
+  const [filter, setFilter] = useState({
+    type: query.sources ? 'sources' : query.category ? 'category' : 'country',
+    value: [query.sources || query.country || query.category],
+  });
+
   const checkboxChanger = (e, type) => {
-    if (type === 'category') {
-      setCategoriesChecked(e.target.value);
-      if (e.target.checked) {
-        categoryFilter(e.target.value);
-      } else {
-        setCategoriesChecked(false);
-        categoryFilter(false);
-      }
-    } else if (type === 'country') {
-      setCountriesChecked(e.target.value);
-      if (e.target.checked) {
-        countryFilter(e.target.value);
-      } else {
-        countryFilter(false);
-        setCountriesChecked(false);
-      }
-    } else if (type === 'source') {
-      setSourcesChecked(e.target.value);
-      if (e.target.checked) {
-        sourceFilter(e.target.value);
-      } else {
-        setSourcesChecked(false);
-        sourceFilter(false);
-      }
+    const isExists = filter.value.includes(e.target.value);
+
+    if (isExists && !e.target.checked && filter.value.length === 1) {
+      return;
     }
+
+    setFilter({
+      type,
+      value: isExists ? filter.value.filter((value) => value !== e.target.value) : [...filter.value, e.target.value],
+    });
   };
+
+  useEffect(() => {
+    onChange(filter.type, filter.value);
+  }, [filter]);
 
   return (
     <div className="filter">
@@ -47,9 +38,9 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
         </div>
 
         <div className="filters">
-          <Checkbox.Group>
+          <Checkbox.Group value={filter.value}>
             <h1>Filter Options</h1>
-            {!source && (
+            {!query.sources && (
               <div>
                 <Popover
                   placement="rightTop"
@@ -60,7 +51,7 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                       {categoriesFilters.map((category) => (
                         <Col span={8} key={category.id}>
                           <Checkbox
-                            disabled={categoriesChecked && categoriesChecked !== category.name.toLowerCase()}
+                            disabled={filter.type !== 'sources' && filter.value !== category.name.toLowerCase()}
                             value={category.name.toLowerCase()}
                             onChange={(e) => checkboxChanger(e, 'category')}
                           >
@@ -85,7 +76,7 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                       {countriesFilters.map((country) => (
                         <Col span={8} key={country.id}>
                           <Checkbox
-                            disabled={countriesChecked && countriesChecked !== country.name}
+                            disabled={filter.type === 'country' && filter.value !== country.name}
                             onChange={(e) => checkboxChanger(e, 'country')}
                             value={country.name}
                           >
@@ -100,7 +91,7 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                 </Popover>
               </div>
             )}
-            {!category && !country && (
+            {!query.category && !query.country && (
               <div>
                 <br />
                 <Popover
@@ -109,17 +100,15 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                   trigger="hover"
                   content={
                     <Row className="popoutWindow">
-                      {sources.map((source) => (
-                        <Col span={8} key={source.id}>
-                          <Checkbox
-                            disabled={sourcesChecked && sourcesChecked !== source.id}
-                            onChange={(e) => checkboxChanger(e, 'source')}
-                            value={source.id}
-                          >
-                            {source.name}
-                          </Checkbox>
-                        </Col>
-                      ))}
+                      {sources.map((source) => {
+                        return (
+                          <Col span={8} key={source.id}>
+                            <Checkbox onChange={(e) => checkboxChanger(e, 'sources')} value={source.id}>
+                              {source.name}
+                            </Checkbox>
+                          </Col>
+                        );
+                      })}
                     </Row>
                   }
                 >
