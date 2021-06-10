@@ -15,8 +15,10 @@ const AppHeader = () => {
   };
   const inputVisibility = () => {
     setInput(!input);
+    setInputText(false);
     if (!!inputText) {
-      router.push(`/search?q=${inputText}`);
+      const newInput = inputText;
+      router.push(`/search?q=${newInput}`);
     }
   };
   const onPressingEnter = (evt) => {

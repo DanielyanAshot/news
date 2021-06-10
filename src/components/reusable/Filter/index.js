@@ -1,5 +1,5 @@
 import './index.scss';
-import { Checkbox, Row, Col, Button } from 'antd';
+import { Checkbox, Row, Col, Button, Popover } from 'antd';
 import { useState } from 'react';
 import { categoriesFilters, countriesFilters } from './Filters';
 import { countries } from '../countriesAndLanguages';
@@ -43,64 +43,87 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
     <div className="filter">
       <div>
         <div className="clear">
-          <Button>Clear</Button>
+          <Button>Clear Filters</Button>
         </div>
 
         <div className="filters">
           <Checkbox.Group>
+            <h1>Filter Options</h1>
             {!source && (
               <div>
-                <span>Categories</span>
-                <Row>
-                  {categoriesFilters.map((category) => (
-                    <Col span={8} key={category.id}>
-                      <Checkbox
-                        disabled={categoriesChecked && categoriesChecked !== category.name.toLowerCase()}
-                        value={category.name.toLowerCase()}
-                        onChange={(e) => checkboxChanger(e, 'category')}
-                      >
-                        {category.name}
-                      </Checkbox>
-                    </Col>
-                  ))}
-                </Row>
-
+                <Popover
+                  placement="rightTop"
+                  title={'Countries'}
+                  trigger="hover"
+                  content={
+                    <Row>
+                      {categoriesFilters.map((category) => (
+                        <Col span={8} key={category.id}>
+                          <Checkbox
+                            disabled={categoriesChecked && categoriesChecked !== category.name.toLowerCase()}
+                            value={category.name.toLowerCase()}
+                            onChange={(e) => checkboxChanger(e, 'category')}
+                          >
+                            {category.name}
+                          </Checkbox>
+                        </Col>
+                      ))}
+                    </Row>
+                  }
+                >
+                  <Button>Categories</Button>
+                </Popover>
                 <br />
-                <span>Countries</span>
                 <br />
-                <Row>
-                  {countriesFilters.map((country) => (
-                    <Col span={8} key={country.id}>
-                      <Checkbox
-                        disabled={countriesChecked && countriesChecked !== country.name}
-                        onChange={(e) => checkboxChanger(e, 'country')}
-                        value={country.name}
-                      >
-                        {countries[country.name.toUpperCase()].name}
-                      </Checkbox>
-                    </Col>
-                  ))}
-                </Row>
+                <Popover
+                  placement="rightTop"
+                  title={'Countries'}
+                  trigger="hover"
+                  content={
+                    <Row>
+                      {countriesFilters.map((country) => (
+                        <Col span={4} key={country.id}>
+                          <Checkbox
+                            disabled={countriesChecked && countriesChecked !== country.name}
+                            onChange={(e) => checkboxChanger(e, 'country')}
+                            value={country.name}
+                          >
+                            {countries[country.name.toUpperCase()].name}
+                          </Checkbox>
+                        </Col>
+                      ))}
+                    </Row>
+                  }
+                >
+                  <Button>Countries</Button>
+                </Popover>
               </div>
             )}
             {!category && !country && (
               <div>
                 <br />
-                <span>Sources</span>
-                <br />
-                <Row>
-                  {sources.map((source) => (
-                    <Col span={8} key={source.id}>
-                      <Checkbox
-                        disabled={sourcesChecked && sourcesChecked !== source.id}
-                        onChange={(e) => checkboxChanger(e, 'source')}
-                        value={source.id}
-                      >
-                        {source.name}
-                      </Checkbox>
-                    </Col>
-                  ))}
-                </Row>
+                <Popover
+                  placement="rightTop"
+                  title={'Sources'}
+                  trigger="hover"
+                  content={
+                    <Row>
+                      {sources.map((source) => (
+                        <Col span={4} key={source.id}>
+                          <Checkbox
+                            disabled={sourcesChecked && sourcesChecked !== source.id}
+                            onChange={(e) => checkboxChanger(e, 'source')}
+                            value={source.id}
+                          >
+                            {source.name}
+                          </Checkbox>
+                        </Col>
+                      ))}
+                    </Row>
+                  }
+                >
+                  <Button>Sources</Button>
+                </Popover>
               </div>
             )}
           </Checkbox.Group>

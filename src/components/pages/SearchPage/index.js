@@ -43,25 +43,22 @@ const SearchPage = () => {
   }, [setArticles, fetchUrl]);
 
   const newPage = async () => {
-    const response = await fetch(fetchUrl + `&page=${(articles.length + 1) / 20}`);
+    const response = await fetch(fetchUrl + `&page=${articles.length / 20 + 1}`);
     const response_1 = await response.json();
-    console.log(articles.concat(response_1.articles));
     setArticles(articles.concat(response_1.articles));
   };
 
   if (!!articles) {
     return (
       <div className="searchPage">
-        {!source && (
-          <Filter
-            categoryFilter={categoryFilter}
-            countryFilter={countryFilter}
-            sourceFilter={sourceFilter}
-            category={category}
-            source={source}
-            country={country}
-          />
-        )}
+        <Filter
+          categoryFilter={categoryFilter}
+          countryFilter={countryFilter}
+          sourceFilter={sourceFilter}
+          category={category}
+          source={source}
+          country={country}
+        />
         <div className="sort-articles">
           <Sort changeSort={changeSort} />
           <InfiniteScroll
