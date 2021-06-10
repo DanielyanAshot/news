@@ -3,10 +3,10 @@ import { Select } from 'antd';
 
 const { Option } = Select;
 
-const Sort = ({ articles, changeSort }) => (
+const Sort = ({ changeSort }) => (
   <div className="sort">
     <h4>SortBy:</h4>
-    <Select defaultValue="New" onChange={() => changeSort(articles)}>
+    <Select defaultValue="New" onChange={changeSort}>
       <Option value="New">New</Option>
       <Option value="Old">Old</Option>
     </Select>
