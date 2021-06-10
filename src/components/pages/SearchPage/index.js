@@ -1,5 +1,6 @@
 import './index.scss';
 import { useEffect, useState } from 'react';
+import { Spin } from 'antd';
 import ArticlesList from '../../reusable/Articles/ArticlesList';
 import Filter from '../../reusable/Filter';
 import Sort from '../../reusable/Sort';
@@ -13,7 +14,7 @@ const SearchPage = () => {
   const q = GetQuery('q');
   const [category, setCategory] = useState(false);
   const [country, setCountry] = useState(false);
-  const fetchUrl = `https://newsapi.org/v2/top-headlines?apiKey=b9480c6c601d485d9794e1ab45627dff&pageSize=20${
+  const fetchUrl = `https://newsapi.org/v2/top-headlines?apiKey=0bc676ccdcfc42b28380336691e6053f&pageSize=20${
     !!source ? `&sources=${source}` : ''
   }${!!q ? `&q=${q}` : ''}${!!category ? `&category=${category}` : ''}${!!country ? `&country=${country}` : ''}`;
   const categoryFilter = (newCategory) => {
@@ -65,8 +66,8 @@ const SearchPage = () => {
             dataLength={articles.length}
             next={newPage}
             hasMore={articles.length <= 99}
-            loader={<h4>Loading...</h4>}
-            endMessage={<h4>Yay! You have seen it all</h4>}
+            loader={<Spin />}
+            endMessage={<h1>Sorry but we cant show you more than 100 articles</h1>}
           >
             <ArticlesList sortChangingState={sortChangingState} articles={articles} />
           </InfiniteScroll>

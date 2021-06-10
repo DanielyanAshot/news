@@ -15,14 +15,16 @@ const AppHeader = () => {
   };
   const inputVisibility = () => {
     setInput(!input);
-    setInputText(false);
+    setInputText();
     if (!!inputText) {
       const newInput = inputText;
+      setInputText();
       router.push(`/search?q=${newInput}`);
     }
   };
   const onPressingEnter = (evt) => {
     if ((evt.code === 'NumpadEnter' || evt.code === 'Enter') && !!evt.target.value) {
+      setInputText();
       setInput(!input);
       router.push(`/search?q=${evt.target.value}`);
     }

@@ -71,7 +71,7 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                     </Row>
                   }
                 >
-                  <Button>Categories</Button>
+                  <Button className="hoverButton">Categories</Button>
                 </Popover>
                 <br />
                 <br />
@@ -79,6 +79,7 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                   placement="rightTop"
                   title={'Countries'}
                   trigger="hover"
+                  autoAdjustOverflow={false}
                   content={
                     <Row>
                       {countriesFilters.map((country) => (
@@ -95,7 +96,7 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                     </Row>
                   }
                 >
-                  <Button>Countries</Button>
+                  <Button className="hoverButton">Countries</Button>
                 </Popover>
               </div>
             )}
@@ -106,6 +107,8 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                   placement="rightTop"
                   title={'Sources'}
                   trigger="hover"
+                  color="#E6E6E6"
+                  autoAdjustOverflow={false}
                   content={
                     <Row>
                       {sources.map((source) => (
@@ -122,7 +125,7 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                     </Row>
                   }
                 >
-                  <Button>Sources</Button>
+                  <Button className="hoverButton">Sources</Button>
                 </Popover>
               </div>
             )}
