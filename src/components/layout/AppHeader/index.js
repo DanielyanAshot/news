@@ -1,15 +1,17 @@
 import { Layout } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router';
 import { useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
-import { Input, Button, Row, Col } from 'antd';
+import { Input, Row, Col } from 'antd';
+import './styles.scss';
 
 const { Header } = Layout;
 
 const AppHeader = () => {
+  const [input, setInput] = useState(null);
   const router = useHistory();
-  const [input, setInput] = useState(false);
   const [inputText, setInputText] = useState();
+
   const searchSubmit = (evt) => {
     setInputText(evt.target.value);
   };
@@ -25,21 +27,29 @@ const AppHeader = () => {
       router.push(`/search?q=${evt.target.value}`);
     }
   };
+
   return (
-    <Header style={{ backgroundColor: 'black' }}>
-      <Row type="flex" justify="space-between" align="top">
-        <Link to="/sources">
-          <Col>
-            <p style={{ color: 'blue', border: 0, fontSize: 20, fontWeight: 'bold' }}>NEWS</p>
-          </Col>
-        </Link>
+    <Header>
+      <Row className="row">
         <Col>
-          <Button onClick={inputVisibility}>
-            <SearchOutlined />
-          </Button>
-          {input && (
-            <Input onKeyUp={(evt) => onPressingEnter(evt)} onChange={(evt) => searchSubmit(evt)} type="search" />
-          )}
+          <span className="header-text">NEWS</span>
+        </Col>
+        <Col>
+          <div className="search-bar">
+            {input && (
+              <Input
+                onKeyUp={(evt) => onPressingEnter(evt)}
+                onChange={(evt) => searchSubmit(evt)}
+                name="searchname"
+                id="searchname"
+                className="search-input"
+                type="search"
+              />
+            )}
+            <label htmlFor="searchname">
+              <SearchOutlined onClick={inputVisibility} />
+            </label>
+          </div>
         </Col>
       </Row>
     </Header>

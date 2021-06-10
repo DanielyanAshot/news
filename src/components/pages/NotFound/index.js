@@ -1,7 +1,14 @@
-const Index = () => (
+import { Result, Button } from 'antd';
+
+const NotFound = () => (
   <section>
-    <h1>Page Not Found</h1>
+    <Result
+      status="404"
+      title="404"
+      subTitle="Sorry, the page you visited does not exist."
+      extra={<Button type="primary">Back Home</Button>}
+    />
   </section>
 );
 
-export default Index;
+export default NotFound;

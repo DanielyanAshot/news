@@ -4,10 +4,19 @@ import { languagesAll, countries } from '../countriesAndLanguages';
 
 const SingleNewsSource = ({ source }) => (
   <Link to={`/search?sources=${source.id}`} className="SingleNewsSource">
-    <p>{source.name}</p>
-    <p>{source.description}</p>
-    <p>{countries[source.country.toUpperCase()].name}</p>
-    <p>{languagesAll[source.language].name}</p>
+    <div className="SingleNewsSource">
+      <div className="card-title">
+        <p className="source-name">{source.name}</p>
+      </div>
+      <div className="card-body">
+        <p>{source.description}</p>
+      </div>
+      <div className="card-items">
+        <p>{countries[source.country.toUpperCase()].name}</p>
+        <p>{languagesAll[source.language].name}</p>
+        <p>{source.category}</p>
+      </div>
+    </div>
   </Link>
 );
 

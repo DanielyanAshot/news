@@ -1,8 +1,33 @@
 .SingleNewsSource{
-    margin-top: 15px;
-    border: solid 2px rgba(66, 60, 65, 0.171);
-    width:33%;
-    height: 200px;
     display: flex;
+    flex-direction: column;
     text-align: center;
+    font-weight: bold;
+}
+
+.source-name{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.card-items{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+.card-title{
+   color:  #FFC123;
+}
+
+.card-body{
+    overflow: hidden;
+    height: 120px;
+    color: white;
+    letter-spacing: 1px;
+    line-height: 2;
 }
