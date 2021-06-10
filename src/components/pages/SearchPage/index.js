@@ -32,7 +32,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     fetch(
-      `https://newsapi.org/v2/top-headlines?apiKey=f6412f4f7b2741c58e527e0b6c8738e4&pageSize=20&page=1${
+      `https://newsapi.org/v2/top-headlines?apiKey=60c7505aad1e4bdcb433e6ab4f1a2da4&pageSize=20&page=1${
         !!source ? `&sources=${source}` : ''
       }${!!q ? `&q=${q}` : ''}${!!category ? `&category=${category}` : ''}${!!country ? `&country=${country}` : ''}`,
     )
@@ -45,14 +45,16 @@ const SearchPage = () => {
   if (!!articles) {
     return (
       <div className="searchPage">
-        <Filter
-          categoryFilter={categoryFilter}
-          countryFilter={countryFilter}
-          sourceFilter={sourceFilter}
-          category={category}
-          source={source}
-          country={country}
-        />
+        {!source && (
+          <Filter
+            categoryFilter={categoryFilter}
+            countryFilter={countryFilter}
+            sourceFilter={sourceFilter}
+            category={category}
+            source={source}
+            country={country}
+          />
+        )}
         <div className="sort-articles">
           <Sort articles={articles} changeSort={changeSort} />
           <ArticlesList articles={articles} />

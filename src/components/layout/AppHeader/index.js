@@ -26,11 +26,11 @@ const AppHeader = () => {
     }
   };
   return (
-    <Header style={{ backgroundColor: 'black' }}>
+    <Header>
       <Row type="flex" justify="space-between" align="top">
         <Link to="/sources">
           <Col>
-            <p style={{ color: 'blue', border: 0, fontSize: 20, fontWeight: 'bold' }}>NEWS</p>
+            <p style={{ color: 'blue', border: 0, fontSize: 20, fontWeight: 'bold' }}>News Sources</p>
           </Col>
         </Link>
         <Col>
