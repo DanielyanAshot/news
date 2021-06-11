@@ -9,7 +9,8 @@ const ArticlesList = ({ articles, sortChangingState }) => {
       {sortedArticles.map((article, index) => (
         <SingleArticle article={article} key={index} />
       ))}
-      {!articles[0] && <span>No articles were found</span>}
+
+      {!articles?.length && <span>No articles were found</span>}
     </div>
   );
 };

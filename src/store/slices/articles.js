@@ -23,7 +23,11 @@ export const articlesSlice = createSlice({
     pending: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    clear(state) {
+      state.data = null;
+    },
+  },
   extraReducers: {
     [fetchArticlesThunk.pending]: (state) => {
       if (!state.pending) {
@@ -46,3 +50,4 @@ export const articlesSlice = createSlice({
 });
 
 export const selectArticles = (state) => state.articles.data;
+export const selectArticlesLoading = (state) => state.articles.pending;

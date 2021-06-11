@@ -7,31 +7,28 @@ import Sort from '../../reusable/Sort';
 import useQuery from '../../../hooks';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchArticlesThunk, selectArticles } from '../../../store/slices/articles';
+import {
+  articlesSlice,
+  fetchArticlesThunk,
+  selectArticles,
+  selectArticlesLoading,
+} from '../../../store/slices/articles';
 import generateQS from '../../../helpers/generateQS';
 import qs from 'qs';
 import { fetchSourcesThunk, selectSources } from '../../../store/slices/sources';
 import history from '../../../helpers/history';
+import pageConstants from '../../../constants/pageConstants';
 
 const SearchPage = () => {
   const query = useQuery();
   const sources = useSelector(selectSources);
   const articles = useSelector(selectArticles);
+  const articlesLoading = useSelector(selectArticlesLoading);
   const dispatch = useDispatch();
   const [sortChangingState, setSortChangingState] = useState(['desc', 'asc']);
 
-  const handleOnChange = (type, values) => {
-    const data = {
-      ...query,
-    };
-
-    if (values.length) {
-      data[type] = values.join(',');
-    } else {
-      delete data[type];
-    }
-
-    const path = qs.stringify(data);
+  const handleOnChange = (values) => {
+    const path = qs.stringify(values);
     history.push(`/search?${path}`);
   };
 
@@ -46,47 +43,50 @@ const SearchPage = () => {
       ...query,
     });
 
-    dispatch(fetchArticlesThunk(params));
+    if (qs.stringify(params)) {
+      dispatch(fetchArticlesThunk(params));
+    } else {
+      dispatch(articlesSlice.actions.clear());
+    }
   }, [dispatch, query]);
 
   useEffect(() => {
     dispatch(fetchSourcesThunk());
   }, [dispatch]);
 
-  const newPage = () => {
+  const handleOnNext = () => {
     const params = generateQS({
       ...query,
-      pageSize: articles.length + 20,
+      pageSize: articles?.length + pageConstants.PAGE_SIZE,
     });
 
     dispatch(fetchArticlesThunk(params));
   };
 
-  if (!!articles) {
-    return (
-      <div className="searchPage">
-        <Filter sources={sources} onChange={handleOnChange} />
-
-        <div className="sort-articles">
-          <Sort changeSort={changeSort} />
-          <InfiniteScroll
-            dataLength={articles.length}
-            next={newPage}
-            hasMore={articles.length <= 99}
-            loader={<Spin />}
-            endMessage={<h1>Sorry but we cant show you more than 100 articles</h1>}
-          >
-            <ArticlesList sortChangingState={sortChangingState} articles={articles} />
-          </InfiniteScroll>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="loadingScreen">
-      <div className="loader"></div>
-      <span className="loading">Loading ...</span>
+    <div className="searchPage">
+      <Filter sources={sources} onChange={handleOnChange} />
+
+      <InfiniteScroll
+        dataLength={articles?.length}
+        next={handleOnNext}
+        hasMore={articles?.length <= 99}
+        loader={<Spin />}
+        endMessage={<h1>Sorry but we cant show you more than 100 articles</h1>}
+      >
+        {articlesLoading && !articles?.length ? (
+          <div className="loadingScreen">
+            <div className="loader" />
+            <span className="loading">Loading ...</span>
+          </div>
+        ) : (
+          <div className="sort-articles">
+            <Sort changeSort={changeSort} />
+
+            <ArticlesList sortChangingState={sortChangingState} articles={articles} />
+          </div>
+        )}
+      </InfiniteScroll>
     </div>
   );
 };

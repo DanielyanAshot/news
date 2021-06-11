@@ -1,47 +1,65 @@
-import './index.scss';
-import { Checkbox, Row, Col, Button, Popover } from 'antd';
+import './styles.scss';
+import { Checkbox, Row, Col, Button, Popover, Radio } from 'antd';
 import { useEffect, useState } from 'react';
 import { categoriesFilters, countriesFilters } from './Filters';
 import { countries } from '../countriesAndLanguages';
 import useQuery from '../../../hooks';
+import generateQS from '../../../helpers/generateQS';
 
-const Filter = ({ onChange, sources }) => {
+const Filter = ({ sources, onChange }) => {
   const query = useQuery();
 
-  const [filter, setFilter] = useState({
-    type: query.sources ? 'sources' : query.category ? 'category' : 'country',
-    value: [query.sources || query.country || query.category],
+  const [filters, setFilters] = useState({
+    sources: query.sources ? [query.sources] : null,
+    category: query.category || null,
+    country: query.country || null,
   });
 
-  const checkboxChanger = (e, type) => {
-    const isExists = filter.value.includes(e.target.value);
-
-    if (isExists && !e.target.checked && filter.value.length === 1) {
-      return;
-    }
-
-    setFilter({
-      type,
-      value: isExists ? filter.value.filter((value) => value !== e.target.value) : [...filter.value, e.target.value],
+  const onChangeCheckboxes = (values) => {
+    setFilters({
+      ...filters,
+      sources: values,
+      category: null,
+      country: null,
     });
   };
 
+  const onChangeRadio = (type, e) => {
+    setFilters({
+      ...filters,
+      [type]: e.target.value,
+      sources: null,
+    });
+  };
+
+  const handleClearFilters = () => {
+    setFilters({
+      sources: null,
+      country: null,
+      category: null,
+    });
+    onChange({});
+  };
+
   useEffect(() => {
-    onChange(filter.type, filter.value);
-  }, [filter]);
+    console.log(query);
+    const data = generateQS({ ...query, ...filters, sources: filters.sources?.join() });
+    onChange({ ...data });
+  }, [filters]);
 
   return (
     <div className="filter">
       <div>
         <div className="clear">
-          <Button>Clear Filters</Button>
+          <Button onClick={handleClearFilters}>Clear Filters</Button>
         </div>
 
         <div className="filters">
-          <Checkbox.Group value={filter.value}>
-            <h1>Filter Options</h1>
-            {!query.sources && (
-              <div>
+          <h1>Filter Options</h1>
+
+          {!query.sources && (
+            <div>
+              <Radio.Group value={filters.category} onChange={(e) => onChangeRadio('category', e)}>
                 <Popover
                   placement="rightTop"
                   title={'Countries'}
@@ -50,13 +68,7 @@ const Filter = ({ onChange, sources }) => {
                     <Row>
                       {categoriesFilters.map((category) => (
                         <Col span={8} key={category.id}>
-                          <Checkbox
-                            disabled={filter.type !== 'sources' && filter.value !== category.name.toLowerCase()}
-                            value={category.name.toLowerCase()}
-                            onChange={(e) => checkboxChanger(e, 'category')}
-                          >
-                            {category.name}
-                          </Checkbox>
+                          <Radio value={category.name.toLowerCase()}>{category.name}</Radio>
                         </Col>
                       ))}
                     </Row>
@@ -64,8 +76,9 @@ const Filter = ({ onChange, sources }) => {
                 >
                   <Button className="hoverButton">Categories</Button>
                 </Popover>
-                <br />
-                <br />
+              </Radio.Group>
+
+              <Radio.Group value={filters.country} onChange={(e) => onChangeRadio('country', e)}>
                 <Popover
                   placement="rightTop"
                   title={'Countries'}
@@ -75,13 +88,7 @@ const Filter = ({ onChange, sources }) => {
                     <Row className="popoutWindow">
                       {countriesFilters.map((country) => (
                         <Col span={8} key={country.id}>
-                          <Checkbox
-                            disabled={filter.type === 'country' && filter.value !== country.name}
-                            onChange={(e) => checkboxChanger(e, 'country')}
-                            value={country.name}
-                          >
-                            {countries[country.name.toUpperCase()].name}
-                          </Checkbox>
+                          <Radio value={country.name}>{countries[country.name.toUpperCase()].name}</Radio>
                         </Col>
                       ))}
                     </Row>
@@ -89,9 +96,12 @@ const Filter = ({ onChange, sources }) => {
                 >
                   <Button className="hoverButton">Countries</Button>
                 </Popover>
-              </div>
-            )}
-            {!query.category && !query.country && (
+              </Radio.Group>
+            </div>
+          )}
+
+          {!query.category && !query.country && (
+            <Checkbox.Group value={filters.sources} onChange={onChangeCheckboxes}>
               <div>
                 <br />
                 <Popover
@@ -100,23 +110,24 @@ const Filter = ({ onChange, sources }) => {
                   trigger="hover"
                   content={
                     <Row className="popoutWindow">
-                      {sources.map((source) => {
-                        return (
-                          <Col span={8} key={source.id}>
-                            <Checkbox onChange={(e) => checkboxChanger(e, 'sources')} value={source.id}>
-                              {source.name}
-                            </Checkbox>
-                          </Col>
-                        );
-                      })}
+                      {sources.map((source) => (
+                        <Col span={8} key={source.id}>
+                          <Checkbox
+                            value={source.id}
+                            disabled={filters?.sources?.length === 1 && filters.sources[0] === source.id}
+                          >
+                            {source.name}
+                          </Checkbox>
+                        </Col>
+                      ))}
                     </Row>
                   }
                 >
                   <Button className="hoverButton">Sources</Button>
                 </Popover>
               </div>
-            )}
-          </Checkbox.Group>
+            </Checkbox.Group>
+          )}
         </div>
       </div>
     </div>
