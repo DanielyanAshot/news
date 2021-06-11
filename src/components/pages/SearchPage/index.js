@@ -1,5 +1,5 @@
 import './styles.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import ArticlesList from '../../reusable/Articles/ArticlesList';
 import Filter from '../../reusable/Filter';
@@ -18,10 +18,6 @@ const SearchPage = () => {
   const sources = useSelector(selectSources);
   const articles = useSelector(selectArticles);
   const dispatch = useDispatch();
-
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
-
   const [sortChangingState, setSortChangingState] = useState(['desc', 'asc']);
 
   const handleOnChange = (type, values) => {
@@ -57,6 +53,15 @@ const SearchPage = () => {
     dispatch(fetchSourcesThunk());
   }, [dispatch]);
 
+  const newPage = () => {
+    const params = generateQS({
+      ...query,
+      pageSize: articles.length + 20,
+    });
+
+    dispatch(fetchArticlesThunk(params));
+  };
+
   if (!!articles) {
     return (
       <div className="searchPage">
@@ -64,15 +69,15 @@ const SearchPage = () => {
 
         <div className="sort-articles">
           <Sort changeSort={changeSort} />
-          {/*<InfiniteScroll*/}
-          {/*  dataLength={articles.length}*/}
-          {/*  next={newPage}*/}
-          {/*  hasMore={articles.length <= 99}*/}
-          {/*  loader={<Spin />}*/}
-          {/*  endMessage={<h1>Sorry but we cant show you more than 100 articles</h1>}*/}
-          {/*>*/}
-          <ArticlesList sortChangingState={sortChangingState} articles={articles} />
-          {/*</InfiniteScroll>*/}
+          <InfiniteScroll
+            dataLength={articles.length}
+            next={newPage}
+            hasMore={articles.length <= 99}
+            loader={<Spin />}
+            endMessage={<h1>Sorry but we cant show you more than 100 articles</h1>}
+          >
+            <ArticlesList sortChangingState={sortChangingState} articles={articles} />
+          </InfiniteScroll>
         </div>
       </div>
     );
