@@ -1,19 +1,38 @@
-.filter{
-    width: 40%;
+.G-btn .ant-btn  {
+    max-width: 200px;
+    width: 100%;
+    height: 49px;
+    background: #001529;
+    color: #FFC42C;
+    transition: 0.3s;
+    border: none;
+    border-radius: 5px;
+}
+.G-btn .ant-btn  span{
+    font-size: 17px;
 }
 
-.filters{
-    width: 100%;
+.G-btn .ant-btn:not([disabled]):hover{
+    color: #001529;
+    background-color:#FFC42C;
 }
+
+// .site-card-border-less-wrapper {
+//     padding: 30px;
+//     background: #ececec;
+//   }
+
 
 .clear{
     height: 60px;
     display: flex;
     align-items: center;
 }
+
 .hoverButton{
     width: 100px;
 }
+
 .sourceWindow{
     max-height: 400px;
     max-width: 400px;

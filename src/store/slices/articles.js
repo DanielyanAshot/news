@@ -47,6 +47,6 @@ export const articlesSlice = createSlice({
   },
 });
 
-export const selectArticles = (state) => state.articles.data.articles;
-export const selectArticlesLoading = (state) => state.articles.pending;
-export const selecttTotalResults = (state) => state.articles.data.totalResults;
+export const selectArticles = (state) => state?.articles?.data?.articles;
+export const selectArticlesLoading = (state) => state?.articles?.pending;
+export const selectTotalResults = (state) => state?.articles?.data?.totalResults;

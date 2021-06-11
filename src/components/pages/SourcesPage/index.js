@@ -16,7 +16,7 @@ const SourcesPage = () => {
   return (
     <section className="NewsSourcesList">
       <h1 className="sources-general-text">SOURCES</h1>
-      <Row gutter={44}>
+      <Row gutter={[16, 16]}>
         {sources ? (
           sources.map((source) => (
             <Col key={source.id} span={8}>
@@ -26,7 +26,7 @@ const SourcesPage = () => {
             </Col>
           ))
         ) : (
-          <div className="example">
+          <div className="loading-container">
             <Spin />
           </div>
         )}

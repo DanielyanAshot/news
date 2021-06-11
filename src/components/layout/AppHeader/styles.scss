@@ -14,12 +14,13 @@
     font-weight: bold;
 }
 
-
-// .search-icon{
-//     font-size: 30px;
-//     margin-left: 20px;
-// }
-
+.header-block{
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99999;
+}
 .search-bar{
     display: flex;
     align-items: center;

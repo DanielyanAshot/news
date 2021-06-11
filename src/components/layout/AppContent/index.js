@@ -6,7 +6,7 @@ const { Content } = Layout;
 // TODO move inline styles
 
 const AppContent = () => (
-  <Content style={{ padding: '0 50px' }}>
+  <Content style={{ padding: '40px', marginTop: '64px' }}>
     <Navigation />
   </Content>
 );

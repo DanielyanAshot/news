@@ -34,7 +34,7 @@ const AppHeader = () => {
   };
 
   return (
-    <Header>
+    <Header className="header-block">
       <Row className="row">
         <Link to="/sources">
           <Col>
