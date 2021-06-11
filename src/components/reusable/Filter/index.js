@@ -40,13 +40,12 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
   };
 
   return (
-    <div className="filter">
-      <div>
-        <div className="clear">
+    <div className="filter-main-block">
+      <div className="filter-content">
+        <div className="G-btn">
           <Button>Clear Filters</Button>
         </div>
-
-        <div className="filters">
+        <div className="filters-block">
           <Checkbox.Group>
             <h1>Filter Options</h1>
             {!source && (
@@ -71,10 +70,10 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                     </Row>
                   }
                 >
-                  <Button className="hoverButton">Categories</Button>
+                  <div className="G-btn">
+                    <Button>Categories</Button>
+                  </div>
                 </Popover>
-                <br />
-                <br />
                 <Popover
                   placement="rightTop"
                   title={'Countries'}
@@ -96,7 +95,10 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                     </Row>
                   }
                 >
-                  <Button className="hoverButton">Countries</Button>
+                  <br />
+                  <div className="G-btn">
+                    <Button>Countries</Button>
+                  </div>
                 </Popover>
               </div>
             )}
@@ -125,7 +127,9 @@ const Filter = ({ categoryFilter, countryFilter, sourceFilter, category, source,
                     </Row>
                   }
                 >
-                  <Button className="hoverButton">Sources</Button>
+                  <div className="G-btn">
+                    <Button>Sources</Button>
+                  </div>
                 </Popover>
               </div>
             )}

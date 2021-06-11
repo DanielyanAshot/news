@@ -14,7 +14,7 @@ const SearchPage = () => {
   const q = GetQuery('q');
   const [category, setCategory] = useState(false);
   const [country, setCountry] = useState(false);
-  const fetchUrl = `https://newsapi.org/v2/top-headlines?apiKey=0bc676ccdcfc42b28380336691e6053f&pageSize=20${
+  const fetchUrl = `https://newsapi.org/v2/top-headlines?apiKey=f6412f4f7b2741c58e527e0b6c8738e4&pageSize=20${
     !!source ? `&sources=${source}` : ''
   }${!!q ? `&q=${q}` : ''}${!!category ? `&category=${category}` : ''}${!!country ? `&country=${country}` : ''}`;
   const categoryFilter = (newCategory) => {
@@ -60,8 +60,10 @@ const SearchPage = () => {
           source={source}
           country={country}
         />
-        <div className="sort-articles">
+        <div>
           <Sort changeSort={changeSort} />
+        </div>
+        <div className="sort-articles">
           <InfiniteScroll
             dataLength={articles.length}
             next={newPage}
