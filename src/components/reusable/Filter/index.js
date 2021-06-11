@@ -49,61 +49,57 @@ const Filter = ({ sources, onChange }) => {
   }, [filters]);
 
   return (
-    <div className="filter-main-block">
-      <div className="filter-content">
-        <div className="G-btn">
-          <Button onClick={handleClearFilters}>Clear Filters</Button>
-        </div>
+    <div className="filters">
+      <h1>Filter Options</h1>
 
-        <div className="filters">
-          <h1>Filter Options</h1>
-
-          <Tabs defaultActiveKey={!query.sources ? '1' : '3'}>
-            <TabPane tab="Categories" key="1" disabled={query.sources}>
-              <Radio.Group value={filters.category} onChange={(e) => onChangeRadio('category', e)}>
-                <Row>
-                  {categoriesFilters.map((category) => (
-                    <Col span={8} key={category.id}>
-                      <Radio value={category.name.toLowerCase()}>{category.name}</Radio>
-                    </Col>
-                  ))}
-                </Row>
-              </Radio.Group>
-            </TabPane>
-            <TabPane tab="Countries" key="2" disabled={query.sources}>
-              <Radio.Group value={filters.country} onChange={(e) => onChangeRadio('country', e)}>
-                <Row>
-                  {countriesFilters.map((country) => (
-                    <Col span={8} key={country.id}>
-                      <Radio value={country.name}>{countries[country.name.toUpperCase()].name}</Radio>
-                    </Col>
-                  ))}
-                </Row>
-              </Radio.Group>
-            </TabPane>
-            <TabPane tab="Sources" key="3" disabled={!!query.category || !!query.country}>
-              <Checkbox.Group value={filters.sources} onChange={onChangeCheckboxes}>
-                <div>
-                  <br />
-
-                  <Row className="sourceWindow">
-                    {sources.map((source) => (
-                      <Col span={8} key={source.id}>
-                        <Checkbox
-                          value={source.id}
-                          disabled={filters?.sources?.length === 1 && filters.sources[0] === source.id}
-                        >
-                          {source.name}
-                        </Checkbox>
-                      </Col>
-                    ))}
-                  </Row>
-                </div>
-              </Checkbox.Group>
-            </TabPane>
-          </Tabs>
-        </div>
+      <div className="G-btn">
+        <Button onClick={handleClearFilters}>Clear Filters</Button>
       </div>
+
+      <Tabs defaultActiveKey={!query.sources ? '1' : '3'}>
+        <TabPane tab="Categories" key="1" disabled={query.sources}>
+          <Radio.Group value={filters.category} onChange={(e) => onChangeRadio('category', e)}>
+            <Row>
+              {categoriesFilters.map((category) => (
+                <Col span={8} key={category.id}>
+                  <Radio value={category.name.toLowerCase()}>{category.name}</Radio>
+                </Col>
+              ))}
+            </Row>
+          </Radio.Group>
+        </TabPane>
+        <TabPane tab="Countries" key="2" disabled={query.sources}>
+          <Radio.Group value={filters.country} onChange={(e) => onChangeRadio('country', e)}>
+            <Row>
+              {countriesFilters.map((country) => (
+                <Col span={8} key={country.id}>
+                  <Radio value={country.name}>{countries[country.name.toUpperCase()].name}</Radio>
+                </Col>
+              ))}
+            </Row>
+          </Radio.Group>
+        </TabPane>
+        <TabPane tab="Sources" key="3" disabled={!!query.category || !!query.country}>
+          <Checkbox.Group value={filters.sources} onChange={onChangeCheckboxes}>
+            <div>
+              <br />
+
+              <Row className="sourceWindow">
+                {sources.map((source) => (
+                  <Col span={8} key={source.id}>
+                    <Checkbox
+                      value={source.id}
+                      disabled={filters?.sources?.length === 1 && filters.sources[0] === source.id}
+                    >
+                      {source.name}
+                    </Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          </Checkbox.Group>
+        </TabPane>
+      </Tabs>
     </div>
   );
 };

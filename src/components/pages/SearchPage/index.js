@@ -1,6 +1,5 @@
-import './styles.scss';
 import { useEffect, useState } from 'react';
-import { Spin } from 'antd';
+import { Col, Row, Spin } from 'antd';
 import ArticlesList from '../../reusable/Articles/ArticlesList';
 import Filter from '../../reusable/Filter';
 import Sort from '../../reusable/Sort';
@@ -12,7 +11,7 @@ import {
   fetchArticlesThunk,
   selectArticles,
   selectArticlesLoading,
-  selecttTotalResults,
+  selectTotalResults,
 } from '../../../store/slices/articles';
 import generateQS from '../../../helpers/generateQS';
 import qs from 'qs';
@@ -24,7 +23,7 @@ const SearchPage = () => {
   const query = useQuery();
   const sources = useSelector(selectSources);
   const articles = useSelector(selectArticles);
-  const totalResults = useSelector(selecttTotalResults);
+  const totalResults = useSelector(selectTotalResults);
   const articlesLoading = useSelector(selectArticlesLoading);
   const dispatch = useDispatch();
   const [sortChangingState, setSortChangingState] = useState(['desc', 'asc']);
@@ -66,38 +65,42 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="searchPage">
-      <Filter sources={sources} onChange={handleOnChange} />
+    <Row>
+      <Col span={10}>
+        <Filter sources={sources} onChange={handleOnChange} />
+      </Col>
 
-      <InfiniteScroll
-        dataLength={articles?.length || 0}
-        next={handleOnNext}
-        hasMore={articles?.length <= 99 && articles?.length < totalResults}
-        loader={<Spin />}
-        endMessage={
-          <h1>
-            {!articles?.length
-              ? ''
-              : articles?.length < 100
-              ? 'No more search results'
-              : `Sorry but we cant show you more than ${articles?.length} articles`}
-          </h1>
-        }
-      >
-        {articlesLoading && !articles?.length ? (
-          <div className="loadingScreen">
-            <div className="loader" />
-            <span className="loading">Loading ...</span>
-          </div>
-        ) : (
-          <div className="sort-articles">
-            <Sort changeSort={changeSort} />
+      <Col span={14}>
+        <InfiniteScroll
+          dataLength={articles?.length || 0}
+          next={handleOnNext}
+          hasMore={articles?.length <= 99 && articles?.length < totalResults}
+          loader={<Spin />}
+          endMessage={
+            <h1>
+              {!articles?.length
+                ? ''
+                : articles?.length < 100
+                ? 'No more search results'
+                : `Sorry but we cant show you more than ${articles?.length} articles`}
+            </h1>
+          }
+        >
+          {articlesLoading && !articles?.length ? (
+            <div className="loadingScreen">
+              <div className="loader" />
+              <span className="loading">Loading ...</span>
+            </div>
+          ) : (
+            <div className="sort-articles">
+              <Sort changeSort={changeSort} />
 
-            <ArticlesList sortChangingState={sortChangingState} articles={articles} />
-          </div>
-        )}
-      </InfiniteScroll>
-    </div>
+              <ArticlesList sortChangingState={sortChangingState} articles={articles} />
+            </div>
+          )}
+        </InfiniteScroll>
+      </Col>
+    </Row>
   );
 };
 

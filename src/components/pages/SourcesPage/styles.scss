@@ -1,35 +1,24 @@
-.NewsSourcesList{
-    margin-top: 60px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-items: center;
+.NewsSourcesList {
+  margin-top: 60px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.sources-general-text{
-    font-weight: bold;
-    font-size: 25px;
-    margin: 0 auto;
-    color:#002647;
+.sources-general-text {
+  font-weight: bold;
+  font-size: 25px;
+  margin: 0 auto;
+  color: #002647;
 }
 
-.ant-col {
-    .ant-card-bordered {
-        margin-top: 50px ;
-        background-color: #002647;
-        height: 250px;
-        border-radius: 10px;
-    }   
+.ant-card-bordered {
+  background-color: #002647 !important;
 }
 
-.example {
-    margin: 20px 0;
-    margin-bottom: 20px;
-    padding: 30px 50px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-
-

@@ -5,10 +5,8 @@ import history from '../../../helpers/history';
 
 const AppLayout = () => (
   <Router history={history}>
-    <section>
-      <AppHeader />
-      <AppContent />
-    </section>
+    <AppHeader />
+    <AppContent />
   </Router>
 );
 
