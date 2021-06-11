@@ -1,32 +1,37 @@
-import './index.scss';
+import './styles.scss';
 import { useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import ArticlesList from '../../reusable/Articles/ArticlesList';
 import Filter from '../../reusable/Filter';
 import Sort from '../../reusable/Sort';
-import GetQuery from '../../reusable/GetQuery';
+import useQuery from '../../../hooks';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  articlesSlice,
+  fetchArticlesThunk,
+  selectArticles,
+  selectArticlesLoading,
+  selecttTotalResults,
+} from '../../../store/slices/articles';
+import generateQS from '../../../helpers/generateQS';
+import qs from 'qs';
+import { fetchSourcesThunk, selectSources } from '../../../store/slices/sources';
+import history from '../../../helpers/history';
+import pageConstants from '../../../constants/pageConstants';
 
 const SearchPage = () => {
-  const [articles, setArticles] = useState();
+  const query = useQuery();
+  const sources = useSelector(selectSources);
+  const articles = useSelector(selectArticles);
+  const totalResults = useSelector(selecttTotalResults);
+  const articlesLoading = useSelector(selectArticlesLoading);
+  const dispatch = useDispatch();
   const [sortChangingState, setSortChangingState] = useState(['desc', 'asc']);
-  const [source, setSource] = useState(GetQuery('sources'));
-  const q = GetQuery('q');
-  const [category, setCategory] = useState(false);
-  const [country, setCountry] = useState(false);
-  const fetchUrl = `https://newsapi.org/v2/top-headlines?apiKey=0bc676ccdcfc42b28380336691e6053f&pageSize=20${
-    !!source ? `&sources=${source}` : ''
-  }${!!q ? `&q=${q}` : ''}${!!category ? `&category=${category}` : ''}${!!country ? `&country=${country}` : ''}`;
-  const categoryFilter = (newCategory) => {
-    setCategory(newCategory);
-  };
 
-  const countryFilter = (newCountry) => {
-    setCountry(newCountry);
-  };
-
-  const sourceFilter = (newSource) => {
-    setSource(newSource);
+  const handleOnChange = (values) => {
+    const path = qs.stringify(values);
+    history.push(`/search?${path}`);
   };
 
   const changeSort = () => {
@@ -36,50 +41,62 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
-    fetch(fetchUrl)
-      .then((response) => response.json())
-      .then((response) => {
-        setArticles(response.articles);
-      });
-  }, [setArticles, fetchUrl]);
+    const params = generateQS({
+      ...query,
+    });
 
-  const newPage = async () => {
-    const response = await fetch(fetchUrl + `&page=${articles.length / 20 + 1}`);
-    const response_1 = await response.json();
-    setArticles(articles.concat(response_1.articles));
+    if (qs.stringify(params)) {
+      dispatch(fetchArticlesThunk(params));
+    } else {
+      dispatch(articlesSlice.actions.clear());
+    }
+  }, [dispatch, query]);
+
+  useEffect(() => {
+    dispatch(fetchSourcesThunk());
+  }, [dispatch]);
+
+  const handleOnNext = () => {
+    const params = generateQS({
+      ...query,
+      pageSize: articles?.length + pageConstants.PAGE_SIZE,
+    });
+
+    dispatch(fetchArticlesThunk(params));
   };
 
-  if (!!articles) {
-    return (
-      <div className="searchPage">
-        <Filter
-          categoryFilter={categoryFilter}
-          countryFilter={countryFilter}
-          sourceFilter={sourceFilter}
-          category={category}
-          source={source}
-          country={country}
-        />
-        <div className="sort-articles">
-          <Sort changeSort={changeSort} />
-          <InfiniteScroll
-            dataLength={articles.length}
-            next={newPage}
-            hasMore={articles.length <= 99}
-            loader={<Spin />}
-            endMessage={<h1>Sorry but we cant show you more than 100 articles</h1>}
-          >
-            <ArticlesList sortChangingState={sortChangingState} articles={articles} />
-          </InfiniteScroll>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="loadingScreen">
-      <div className="loader"></div>
-      <span className="loading">Loading ...</span>
+    <div className="searchPage">
+      <Filter sources={sources} onChange={handleOnChange} />
+
+      <InfiniteScroll
+        dataLength={articles?.length || 0}
+        next={handleOnNext}
+        hasMore={articles?.length <= 99 && articles?.length < totalResults}
+        loader={<Spin />}
+        endMessage={
+          <h1>
+            {!articles?.length
+              ? ''
+              : articles?.length < 100
+              ? 'No more search results'
+              : `Sorry but we cant show you more than ${articles?.length} articles`}
+          </h1>
+        }
+      >
+        {articlesLoading && !articles?.length ? (
+          <div className="loadingScreen">
+            <div className="loader" />
+            <span className="loading">Loading ...</span>
+          </div>
+        ) : (
+          <div className="sort-articles">
+            <Sort changeSort={changeSort} />
+
+            <ArticlesList sortChangingState={sortChangingState} articles={articles} />
+          </div>
+        )}
+      </InfiniteScroll>
     </div>
   );
 };

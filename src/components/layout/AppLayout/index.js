@@ -1,14 +1,15 @@
 import AppHeader from '../AppHeader';
 import AppContent from '../AppContent';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import history from '../../../helpers/history';
 
 const AppLayout = () => (
-  <BrowserRouter>
+  <Router history={history}>
     <section>
       <AppHeader />
       <AppContent />
     </section>
-  </BrowserRouter>
+  </Router>
 );
 
 export default AppLayout;

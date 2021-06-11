@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import apiService from '../../services/apiService';
 
-export const fetchSourcesThunk = createAsyncThunk('news/getData', async () => {
+export const fetchSourcesThunk = createAsyncThunk('news/fetch', async () => {
   const response = await apiService(`/sources`);
   const {
     data: { sources },
@@ -19,7 +19,6 @@ export const sourcesSlice = createSlice({
   },
   reducers: {},
   extraReducers: {
-    // Add reducers for additional action types here, and handle loading state as needed
     [fetchSourcesThunk.pending]: (state) => {
       if (!state.pending) {
         state.pending = true;
