@@ -1,5 +1,5 @@
 import './styles.scss';
-import { Checkbox, Row, Col, Button, Popover, Radio, Tabs } from 'antd';
+import { Checkbox, Row, Col, Button, Radio, Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { categoriesFilters, countriesFilters } from './Filters';
 import { countries } from '../countriesAndLanguages';
