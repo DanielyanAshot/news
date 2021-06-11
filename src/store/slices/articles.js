@@ -9,11 +9,9 @@ export const fetchArticlesThunk = createAsyncThunk('articles/fetch', async (para
     },
   });
 
-  const {
-    data: { articles },
-  } = response;
+  const { data } = response;
 
-  return articles;
+  return data;
 });
 
 export const articlesSlice = createSlice({
@@ -49,5 +47,6 @@ export const articlesSlice = createSlice({
   },
 });
 
-export const selectArticles = (state) => state.articles.data;
+export const selectArticles = (state) => state.articles.data.articles;
 export const selectArticlesLoading = (state) => state.articles.pending;
+export const selecttTotalResults = (state) => state.articles.data.totalResults;

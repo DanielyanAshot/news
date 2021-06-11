@@ -12,6 +12,7 @@ import {
   fetchArticlesThunk,
   selectArticles,
   selectArticlesLoading,
+  selecttTotalResults,
 } from '../../../store/slices/articles';
 import generateQS from '../../../helpers/generateQS';
 import qs from 'qs';
@@ -23,6 +24,7 @@ const SearchPage = () => {
   const query = useQuery();
   const sources = useSelector(selectSources);
   const articles = useSelector(selectArticles);
+  const totalResults = useSelector(selecttTotalResults);
   const articlesLoading = useSelector(selectArticlesLoading);
   const dispatch = useDispatch();
   const [sortChangingState, setSortChangingState] = useState(['desc', 'asc']);
@@ -68,11 +70,19 @@ const SearchPage = () => {
       <Filter sources={sources} onChange={handleOnChange} />
 
       <InfiniteScroll
-        dataLength={articles?.length}
+        dataLength={articles?.length || 0}
         next={handleOnNext}
-        hasMore={articles?.length <= 99}
+        hasMore={articles?.length <= 99 && articles?.length < totalResults}
         loader={<Spin />}
-        endMessage={<h1>Sorry but we cant show you more than 100 articles</h1>}
+        endMessage={
+          <h1>
+            {!articles?.length
+              ? ''
+              : articles?.length < 100
+              ? 'No more search results'
+              : `Sorry but we cant show you more than ${articles?.length} articles`}
+          </h1>
+        }
       >
         {articlesLoading && !articles?.length ? (
           <div className="loadingScreen">
